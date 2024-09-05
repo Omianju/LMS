@@ -15,6 +15,28 @@ interface ITokenOptions {
     
  }
 
+// Parse environment variables with fallback value
+ const accessTokenExpires = parseInt(process.env.ACCESS_TOKEN_EXPIRES || "300", 10)
+ const refereshTokenExpires = parseInt(process.env.REFRESH_TOKEN_EXPIRES || "1200", 10)
+
+
+ // Options for cookies
+export const accessTokenOptions : ITokenOptions = {
+   expires  : new Date(Date.now() + accessTokenExpires * 60 * 1000),
+   maxAge   : accessTokenExpires * 60 *1000,
+   httpOnly : true,
+   sameSite : "lax"
+ }
+
+export const refereshTokenOptions : ITokenOptions = {
+   expires  : new Date(Date.now() + refereshTokenExpires * 24 * 60 *1000),
+   maxAge   : refereshTokenExpires * 24 * 60 * 1000,
+   httpOnly : true,
+   sameSite : "lax"
+ }
+
+
+
 
  export const sendToken = (user:IUser, statusCode: number, res: Response) => {
     const accessToken = user.accessToken()
@@ -23,23 +45,7 @@ interface ITokenOptions {
     // TODO: Upload session to radis
     redis.set(user._id as string, JSON.stringify(user))
 
-    const accessTokenExpires = parseInt(process.env.ACCESS_TOKEN_EXPIRES || "300", 10)
-    const refereshTokenExpires = parseInt(process.env.REFRESH_TOKEN_EXPIRES || "1200", 10)
-
-    const accessTokenOptions : ITokenOptions = {
-      expires  : new Date(Date.now() + accessTokenExpires * 1000),
-      maxAge   : accessTokenExpires * 1000,
-      httpOnly : true,
-      sameSite : "lax"
-    }
-
-    const refereshTokenOptions : ITokenOptions = {
-      expires  : new Date(Date.now() + refereshTokenExpires * 1000),
-      maxAge   : refereshTokenExpires * 1000,
-      httpOnly : true,
-      sameSite : "lax"
-    }
-
+    // only set secure to true in production
     if (process.env.NODE_ENV === "production") {
       accessTokenOptions.secure = true 
     }
@@ -47,7 +53,7 @@ interface ITokenOptions {
     res.cookie("access_token", accessToken, accessTokenOptions)
     res.cookie("refresh_token", refreshToken, refereshTokenOptions)
 
-    res.json({
+    res.status(statusCode).json({
       success : true,
       accessToken,
       user 

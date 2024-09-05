@@ -44,16 +44,13 @@ const userSchema : Schema<IUser> = new mongoose.Schema({
     },
     password : {
         type: String,
-        required: [true , "Please enter yout password."],
         minlength:[6,"password must be atleast 6 characters."],
         select: false
     },
     avatar: {
-        type : {
             public_id : String,
             url : String
-        }
-    },
+        },
     role : {
         type : String,
         default: "user"
@@ -82,19 +79,20 @@ userSchema.pre<IUser>("save", async function(next){
 
 // Access Token
 userSchema.methods.accessToken = function() {
-    return jwt.sign({_id: this._id}, process.env.ACCESS_TOKEN || "")
+    return jwt.sign({_id: this._id}, process.env.ACCESS_TOKEN || "", { expiresIn : "5m" })
 }
 
 // Refresh Token
 
 userSchema.methods.refreshToken = function() {
-    return jwt.sign({_id: this._id}, process.env.REFRESH_TOKEN || "")
+    return jwt.sign({_id: this._id}, process.env.REFRESH_TOKEN || "", { expiresIn : "3d" })
 }
 
 
 userSchema.methods.comparePassword = async function(enteredPassword : string ):Promise<boolean> {
    return await bcrypt.compare(enteredPassword, this.password)
 }
+
 
 const userModel:Model<IUser> = mongoose.model("User", userSchema)
 

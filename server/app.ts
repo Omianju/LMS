@@ -4,6 +4,13 @@ import cors from "cors"
 import { errorMiddleware } from "./middlewares/error"
 require("dotenv").config()
 import userRouter from "./routes/user.route"
+import courseRouter from "./routes/course.route"
+import orderRouter from "./routes/order.route"
+import notificationRouter from "./routes/notification.route"
+import analyticsRouter from "./routes/analytics.route"
+import layoutRouter from "./routes/layout.route"
+
+
 export const app = express()
 
 
@@ -19,7 +26,17 @@ app.use(cors({
     origin : process.env.ORIGIN
 }))
 
+
 app.use("/user", userRouter)
+app.use("/course", courseRouter)
+app.use("/order", orderRouter)
+app.use("/notification", notificationRouter)
+app.use("/analytic", analyticsRouter)
+app.use("/layout", layoutRouter)
+
+// you can also do this 
+// app.use("/api/v1", userRouter, courseRouter, orderRouter)
+
 
 app.get("/", (req:Request, res:Response, next:NextFunction) => {
     res.send("Server Running")
