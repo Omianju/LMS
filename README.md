@@ -33,7 +33,7 @@ The backend implements a **JWT-based authentication system** with the following 
 - **Refresh Token**: Long-lived token (7 days) stored securely and used to generate new access tokens.
 - **Automatic Token Refresh**: The refresh token is used to obtain a new access token every 5 minutes to ensure uninterrupted and secure sessions.
 - **Password Hashing**: User passwords are hashed using **bcrypt** to store them securely.
-- **Email Verification**: The project sends email for verification to make sure the client is genuine
+- **Email Verification**: The project sends email for verification to make sure the client is genuine.
   
 ## Installation
 
