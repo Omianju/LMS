@@ -11,9 +11,12 @@ Welcome to the **Learning Management System (LMS) Backend**. This project provid
 - **Role-based Access Control (RBAC)**: Only authorized users can access specific routes and perform operations.
 - **Cron Jobs**: Automate tasks like data backups, sending email reminders, and updating statistics at regular intervals.
 - **Support File Upload**: Support for file uploads (e.g., course materials).
+- **Type Safety**: The project is fully type-safe, leveraging TypeScript for enhanced code quality and maintainability.
+  
 ## Tech Stack
 
 - **Node.js**: Server-side runtime environment
+- **Typescript**: TypeScript as a powerful tool for type safety in the project.
 - **Express.js**: Web framework for handling API requests and middleware
 - **MongoDB**: NoSQL database to store user, course, and progress data
 - **Mongoose**: ODM for MongoDB, providing schema-based data models
